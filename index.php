@@ -1,5 +1,22 @@
-<?php require 'inc/data/products.php'; ?>
-<?php require 'inc/head.php'; ?>
+<?php 
+require 'inc/data/products.php';
+require 'inc/head.php';
+
+if (!isset($_SESSION['product'])) {     // enregistrement de chaque cookie dans le panier
+    $_SESSION['product'] = [];
+}
+
+if (isset($_GET['add_to_cart'])) {    // ajout d'un cookie au panier
+    $cookieId = $_GET['add_to_cart'];
+
+    if (!isset($_SESSION['product'][$cookieId])) {    // verification du panier user pour ajouter un cookie existant ou non
+        $_SESSION['product'][$cookieId] = 1; 
+        $cookieCount = $_SESSION['product'][$cookieId];
+        $cookieCount += 1;
+        $_SESSION['product'][$cookieId] = $cookieCount;
+    }
+}
+?>
 <section class="cookies container-fluid">
     <div class="row">
         <?php foreach ($catalog as $id => $cookie) { ?>
